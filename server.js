@@ -4,19 +4,50 @@ const client = new Discord.Client();
 let TOKEN_FILE = '.token';
 let fs = require( 'fs' );
 
+let BOT_NAME = "Bot de sept lieu"; // shouldn't be done like this I think...
+
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('message', msg => {
-    if (msg.content === 'ping')
+function is_concerned( msg )
+{
+    let concerned = msg.mentions.everyone;
+    if ( !concerned )
     {
-        msg.reply('Pong!');
+        /*console.log(" MENTIONS : ", msg.mentions.users );*/
+        /*console.log(msg.mentions.users[0]);*/
+        /*let a = [...msg.mentions.users.keys()];*/
+        /*console.log(a);*/
+        for ( var i in msg.mentions.users )
+        {
+            console.log("ici");
+            /*console.log( msg.mentions.users );
+            /*if ( i.username == BOT_NAME )
+            concerned = true;*/
+        }
     }
-    else
+    return concerned;   
+}
+
+client.on('message', msg => {
+    if ( msg.author.username != BOT_NAME )
     {
-        msg.reply( msg.content );
-        /*console.log(msg.);*/
+        if ( msg.content.indexOf('gros') > -1 )
+        {
+            msg.reply("Pas autant que ta mère!");
+        }
+        else if ( msg.content.indexOf('petit') > -1 )
+        {
+            msg.reply("Pas autant que ta bite!");
+        }
+        else
+        {
+            if ( is_concerned( msg ) )
+            {
+                msg.reply("Hey, je suis concerné!");
+            }
+        }
     }
 });
 
