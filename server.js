@@ -15,8 +15,11 @@ function is_concerned( msg )
     let concerned = msg.mentions.everyone;
     if ( !concerned )
     {
-        concerned = msg.mentions.users.every(
-            function( value ) { return value.username === BOT_NAME; });
+        console.log(msg.mentions.users.findKey('username', BOT_NAME));
+                    /*concerned = msg.mentions.users.every( function( value ) {
+                                                  
+                                                  return value.username === BOT_NAME;
+                                              });*/
     }
     return concerned;   
 }
