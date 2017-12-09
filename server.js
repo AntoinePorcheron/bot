@@ -15,17 +15,8 @@ function is_concerned( msg )
     let concerned = msg.mentions.everyone;
     if ( !concerned )
     {
-        /*console.log(" MENTIONS : ", msg.mentions.users );*/
-        /*console.log(msg.mentions.users[0]);*/
-        /*let a = [...msg.mentions.users.keys()];*/
-        /*console.log(a);*/
-        for ( var i in msg.mentions.users )
-        {
-            console.log("ici");
-            /*console.log( msg.mentions.users );
-            /*if ( i.username == BOT_NAME )
-            concerned = true;*/
-        }
+        concerned = msg.mentions.users.every(
+            function( value ) { return value.username === BOT_NAME; });
     }
     return concerned;   
 }
