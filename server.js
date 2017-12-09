@@ -6,22 +6,18 @@ let fs = require( 'fs' );
 
 let BOT_NAME = "Bot de sept lieu"; // shouldn't be done like this I think...
 
+let EVERYONE_MENTIONS_CONCERNED = true;
+
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
 function is_concerned( msg )
 {
-    let concerned = msg.mentions.everyone;
-    if ( !concerned )
-    {
-        console.log(msg.mentions.users.findKey('username', BOT_NAME));
-                    /*concerned = msg.mentions.users.every( function( value ) {
-                                                  
-                                                  return value.username === BOT_NAME;
-                                              });*/
-    }
-    return concerned;   
+    let concerned = msg.mentions.users.findKey('username', BOT_NAME) != null;
+    if ( EVERYONE_MENTIONS_CONCERNED )
+        concerned = concerned || msg.mentions.everyone;
+    return concerned;
 }
 
 client.on('message', msg => {
