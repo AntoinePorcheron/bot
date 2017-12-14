@@ -1,4 +1,5 @@
 module.exports = function(){
+
     this.dice = function( max_val ){
         if ( is_undefined( max_val ) )
             max_val = 7;
@@ -12,21 +13,20 @@ module.exports = function(){
     };
 
     this.dice_command = function(command , msg ) {
-        let dices = [];
+        let sum = 0;
         if ( is_undefined( command ) )
-            dices.push( dice() );
+            sum = dice();
         else{
             commands = command.split('d');
             let nb_dices = parseInt(commands[0]);
             let max_value = parseInt(commands[1]);
-            if ( nb_dices > 0 )
+            if ( max_value > 1 )
                 for ( let i = 0; i < nb_dices; ++i )
-                    dices.push( dice( max_value ) );   
+                    sum += dice( max_value );
+            else
+                sum = -1;
         }
-        let all_right = dices.length > 0;
-        for ( let i = 0; i < dices.length; ++i )
-            if ( dices[i] < 1 )
-                all_right = false;   
+        let all_right = dice > 0;
         if ( all_right )
             dice_message( dices , msg );
         else
@@ -35,7 +35,10 @@ module.exports = function(){
     
     this.dices_sum = function( dices ){
         let sum = 0;
-        dices.forEach( function ( v ) { sum += v; } );
+        /*dices.forEach( function ( v ) { sum += v; } );*/
+        for (let  i = 0; i < dices; ++i ){
+            sum += 
+        }
         return sum;
     };
     
