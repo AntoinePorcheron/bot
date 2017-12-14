@@ -39,7 +39,7 @@ client.on('message', msg => {
 
 function start_test()
 {
-    let rclient= redis.createClient();
+    /*let rclient= redis.createClient();*/
     rclient.on('ready', function(){ console.log("ready"); });
     rclient.set('test_0', JSON.stringify({mot : 'mot', value : 0 }));
     rclient.get('test_0',function(err, val) {
