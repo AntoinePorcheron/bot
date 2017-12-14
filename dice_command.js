@@ -26,7 +26,7 @@ module.exports = function(){
             else
                 sum = -1;
         }
-        let all_right = dice > 0;
+        let all_right = sum > 0;
         if ( all_right )
             dice_message( dices , msg );
         else
