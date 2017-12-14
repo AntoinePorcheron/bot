@@ -11,7 +11,7 @@ module.exports = function(){
             value = -1;
         return value;
     };
-
+    
     this.dice_command = function(command , msg ) {
         let sum = 0;
         if ( is_undefined( command ) )
@@ -32,16 +32,7 @@ module.exports = function(){
         else
             dice_error_message( msg );
     }; 
-    
-    this.dices_sum = function( dices ){
-        let sum = 0;
-        /*dices.forEach( function ( v ) { sum += v; } );*/
-        for (let  i = 0; i < dices; ++i ){
-            sum += 
-        }
-        return sum;
-    };
-    
+        
     this.dice_message = function( dices , msg ){
         let message = "résultat = " + dices_sum(dices);
         if ( dices.length > 1 && dices.length < 50 )
