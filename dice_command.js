@@ -41,7 +41,7 @@ module.exports = function(){
     
     this.dice_message = function( dices , msg ){
         let message = "résultat = " + dices_sum(dices);
-        if ( dices.length > 1 )
+        if ( dices.length > 1 && dices.length < 50 )
             message += " dés = " + dices;
         msg.reply( message );
     };
