@@ -1,46 +1,61 @@
-module.exports = function(){
+require("./useful.js")();
+const Dice = require("./dice.js");
 
-    this.dice = function( max_val ){
-        if ( is_undefined( max_val ) )
-            max_val = 7;
-        let min_dice_value = 1;
-        let value;
-        if ( max_val > 0 )
-            value = randint( min_dice_value , max_val );
-        else
-            value = -1;
-        return value;
-    };
-    
-    this.dice_command = function(command , msg ) {
-        let sum = 0;
-        if ( is_undefined( command ) )
-            sum = dice();
-        else{
-            commands = command.split('d');
-            let nb_dices = parseInt(commands[0]);
-            let max_value = parseInt(commands[1]);
-            if ( max_value > 1 )
-                for ( let i = 0; i < nb_dices; ++i )
-                    sum += dice( max_value );
-            else
-                sum = -1;
+function filterInt(value) {
+    if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+        return Number(value);
+    return NaN;
+}
+
+function intifyArray(array){
+    for (let i = 0; i < array.length; ++i){
+        array[i] = filterInt(array[i]);
+    }
+    return array;
+}
+
+function parse_dice_params(params){
+    let dice_params = intifyArray(params.split('d'));
+    if ( dice_params.length === 2 ){
+        if ( isNaN(dice_params[0]) || isNaN(dice_params[1]) ){
+            dice_params[0] = -1;
+            dice_params[1] = -1;
         }
-        let all_right = sum > 0;
-        if ( all_right )
-            dice_message( dices , msg );
-        else
-            dice_error_message( msg );
-    }; 
+    }else{
+        dice_params = [-1, -1];
+    }
+    return dice_params;
+}
+
+module.exports = function(){
+    this.command = function(msg, params){
+        let dice_quantity = 1;
+        let max_dice_value = 6;
+        let error = false;
         
-    this.dice_message = function( dices , msg ){
-        let message = "résultat = " + dices_sum(dices);
-        if ( dices.length > 1 && dices.length < 50 )
-            message += " dés = " + dices;
-        msg.reply( message );
-    };
-    
-    this.dice_error_message = function(msg){
-        msg.reply("Les paramètres fournis ne sont pas valide...");
-    };
+        if ( !is_undefined( dice_params ) ){
+            let dice_params = parse_dice_params(params);
+            
+            if ( dice_params[0] > 0 && dice_params[1] > 0 ){
+                dice_quantity = dice_params[0];
+                max_dice_value = dice_params[1];
+            }else{
+                error = true;
+            }
+        }
+        
+        let dice = new /*Dice.*/Dice(max_dice_value);
+        let sum = 0;
+        
+        for (let i = 0; i < dice_quantity; ++i)
+            sum += dice.throw().value
+
+        let response;
+        if ( error ){
+            response = "Error while parsing input data"
+        }else{
+            response = `Resultat : ${sum}`;
+        }
+        return response;
+    }
 };
