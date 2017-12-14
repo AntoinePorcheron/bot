@@ -1,7 +1,5 @@
 const fs = require("fs");
 const Discord = require("discord.js");
-const redis = require("redis");
-const natural = require("natural");
 
 const client = new Discord.Client();
 
@@ -36,16 +34,3 @@ client.on('message', msg => {
             msg.reply("Hey, je suis concerné!");
     }
 });
-
-function start_test()
-{
-    /*let rclient= redis.createClient();*/
-    rclient.on('ready', function(){ console.log("ready"); });
-    rclient.set('test_0', JSON.stringify({mot : 'mot', value : 0 }));
-    rclient.get('test_0',function(err, val) {
-        if ( !err )
-            console.log(val);
-    });
-}
-
-start_test();
