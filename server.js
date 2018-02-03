@@ -32,8 +32,8 @@ client.on('message', msg => {
  */
 function handleMessage(msg) {
     console.log(getCode(msg.content));
-    console.log(getCode(msg.content) in KNOWN_LANGUAGE);
-    if ( isCode(msg.content) && getCode(msg.content) in KNOWN_LANGUAGE){
+    console.log(contains(KNOWN_LANGUAGE, getCode(msg.content));
+    if ( isCode(msg.content) && contains(KNOWN_LANGUAGE, getCode(msg.content)){
         console.log(getCodeContent(msg.content));
         runCode(msg, getCodeContent(msg.content));
     }
@@ -148,6 +148,12 @@ String.prototype.hashCode = function() {
   }
   return hash;
 };
+
+function contains( array, element ){
+    let result = false;
+    array.forEach( (el) => { result = result || el === element; } );
+    return result;
+}
 
 /*
 ```cpp
