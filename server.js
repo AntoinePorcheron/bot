@@ -2,7 +2,6 @@ const fs = require("fs");
 const Discord = require("discord.js");
 const { exec } = require("child_process");
 const client = new Discord.Client();
-const { exec } = require("child_process");
 
 const COMMAND_START = [ '!' ];
 const TOKEN_FILE = '.token';
