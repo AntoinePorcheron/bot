@@ -113,22 +113,25 @@ function isConcerned(msg) {
   return concerned;
 }
 
-function runCode(msg, content){
+function runCode(msg, content) {
     const filename = "_" + content.hashCode() + ".cpp";
-    exec("echo \"" + content + "\" > " + filename + " && g++ " + filename + " && ./a.out", (error, stdout, stderr) => {
-        if ( error ){
-            msg.reply("Erreur... : " + error);
-        }
-        msg.reply("STDOUT : ");
-        msg.reply("```\n" + stdout + "\n```");
-        msg.reply("STDERR : ");
-        msg.reply("```\n" + stderr + "\n```");
-    });
+    exec("echo \"" + content + "\" > " + filename + " && g++ " + filename +
+         " && ./a.out",
+         (error, stdout, stderr) => {
+             if (error) {
+                 msg.reply("Erreur... : " + error);
+             }
+             msg.reply("STDOUT : ");
+             msg.reply("```\n" + stdout + "\n```");
+             msg.reply("STDERR : ");
+             msg.reply("```\n" + stderr + "\n```");
+             console.log("test");
+         });
 }
 
 /**
  * Fonction qui génère un hash pour une chaine de charactères
- */ 
+ */
 String.prototype.hashCode = function() {
   var hash = 0, i, chr;
   if (this.length === 0) return hash;
