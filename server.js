@@ -21,8 +21,8 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-    //handleMessage(msg);
-    console.log(msg.content);
+    handleMessage(msg);
+    /*console.log(msg.content);*/
 });
 
 /**
@@ -30,17 +30,9 @@ client.on('message', msg => {
  * @param message discord
  */
 function handleMessage(msg) {
-  if (msg.author.username != client.user.username) {
-    if (msg.content.indexOf('gros') > -1)
-      msg.reply("Pas autant que ta mère!");
-    else if (msg.content.indexOf('petit') > -1)
-      msg.reply("Pas autant que ta bite!");
-    else if (is_command(msg)) {
-      let command = msg.content.split(' ')[0];
-      commandsManager.call(msg.content);
-    } else if (is_concerned(msg))
-      msg.reply("Hey, je suis concerné!");
-  }
+    if ( isCode(msg.content) ){
+        console.log(getCode(msg.content));
+    }
 }
 
 /**
