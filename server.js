@@ -90,9 +90,7 @@ function getCode(msg){
  * Fonction qui permet de recuperer le corp du code
  */
 function getCodeContent(msg){
-    msg.replace("```", '');
-    msg = msg.split('\n');
-    msg.shift();
+    msg = msg.replace(/```/g, '').split('\n').msg.shift();
     return msg.join('\n');
 }
 
@@ -112,3 +110,11 @@ function is_concerned(msg) {
     concerned = concerned || msg.mentions.everyone;
   return concerned;
 }
+
+/*
+```cpp
+int main(){
+   return 0;
+}
+```
+*/
