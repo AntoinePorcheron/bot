@@ -4,7 +4,7 @@ const { exec } = require("child_process");
 const client = new Discord.Client();
 
 const COMMAND_START = [ '!' ];
-
+const TOKEN_FILE = '.token';
 /**
  * Fonction qui permet de lire les secrets necessaire pour faire la connexion au
  * serveur
