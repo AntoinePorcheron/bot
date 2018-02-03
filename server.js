@@ -90,7 +90,7 @@ function getCode(msg){
  * Fonction qui permet de recuperer le corp du code
  */
 function getCodeContent(msg){
-    msg = msg.replace(/```/g, '').split('\n').shift();
+    msg = msg.replace(/```/g, '');//.split('\n').shift();
     console.log(msg);
     return msg.join('\n');
 }
