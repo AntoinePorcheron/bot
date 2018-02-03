@@ -23,7 +23,6 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     handleMessage(msg);
-    /*console.log(msg.content);*/
 });
 
 /**
@@ -31,10 +30,7 @@ client.on('message', msg => {
  * @param message discord
  */
 function handleMessage(msg) {
-    console.log(getCode(msg.content));
-    console.log(contains(KNOWN_LANGUAGE, getCode(msg.content) ) );
     if ( isCode(msg.content) && contains(KNOWN_LANGUAGE, getCode(msg.content)) ){
-        console.log(getCodeContent(msg.content));
         runCode(msg, getCodeContent(msg.content));
     }
 }
@@ -130,7 +126,6 @@ function runCode(msg, content) {
                  msg.reply("```bash\n" + stdout + "\n```");
                  msg.reply("STDERR : ");
                  msg.reply("```bash\n" + stderr + "\n```");
-                 console.log("test");
              }
          });
 }
