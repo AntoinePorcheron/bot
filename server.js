@@ -31,6 +31,8 @@ client.on('message', msg => {
  * @param message discord
  */
 function handleMessage(msg) {
+    console.log(getCode(msg.content));
+    console.log(getCode(msg.content) in KNOWN_LANGUAGE);
     if ( isCode(msg.content) && getCode(msg.content) in KNOWN_LANGUAGE){
         console.log(getCodeContent(msg.content));
         runCode(msg, getCodeContent(msg.content));
