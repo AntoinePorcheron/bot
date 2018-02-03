@@ -2,7 +2,6 @@ const fs = require("fs");
 const Discord = require("discord.js");
 const { exec } = require("child_process");
 const client = new Discord.Client();
-const messageHandler = new MessageHandler();
 
 const COMMAND_START = [ '!' ];
 
@@ -93,6 +92,9 @@ function isCode(msg){
 function getCode(msg){
     return msg.substr(3).split(' ')[0];
 }
+
+/**
+*/
 
 /**
  * Fonction qui retourne le(s) utilisateur(s) concernée(s) par un message discord
