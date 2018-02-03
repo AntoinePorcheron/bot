@@ -75,7 +75,7 @@ function user_concerned(msg, username) {
  * Fonction qui détermine si un message texte contient du code ( formaté par discord )
  */
 function isCode(msg){
-    return msg.startWith('```');
+    return msg.startsWith('```');
 }
 
 /**
