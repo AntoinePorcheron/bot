@@ -91,6 +91,7 @@ function getCode(msg){
  */
 function getCodeContent(msg){
     msg = msg.replace(/```/g, '').split('\n').shift();
+    console.log(msg);
     return msg.join('\n');
 }
 
