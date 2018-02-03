@@ -5,6 +5,7 @@ const client = new Discord.Client();
 
 const COMMAND_START = [ '!' ];
 const TOKEN_FILE = '.token';
+const KNOWN_LANGUAGE = ["cpp"];
 /**
  * Fonction qui permet de lire les secrets necessaire pour faire la connexion au
  * serveur
@@ -30,7 +31,7 @@ client.on('message', msg => {
  * @param message discord
  */
 function handleMessage(msg) {
-    if ( isCode(msg.content) ){
+    if ( isCode(msg.content) && getCode(msg.content) in KNOWN_LANGUAGE){
         console.log(getCodeContent(msg.content));
         runCode(msg, getCodeContent(msg.content));
     }
@@ -93,7 +94,7 @@ function getCode(msg){
 function getCodeContent(msg){
     msg = msg.replace(/```/g, '').split('\n');
     msg.shift();
-    return msg.join('\n');
+    return msg.join('\n').replace(/"/g, "\\\"";
 }
 
 /**
@@ -119,13 +120,16 @@ function runCode(msg, content) {
          " && ./a.out",
          (error, stdout, stderr) => {
              if (error) {
-                 msg.reply("Erreur... : " + error);
+                 msg.reply("Error : ");
+                 msg.reply("```bash\n" + stderr + "\n```");
+
+             }else{
+                 msg.reply("STDOUT : ");
+                 msg.reply("```bash\n" + stdout + "\n```");
+                 msg.reply("STDERR : ");
+                 msg.reply("```bash\n" + stderr + "\n```");
+                 console.log("test");
              }
-             msg.reply("STDOUT : ");
-             msg.reply("```\n" + stdout + "\n```");
-             msg.reply("STDERR : ");
-             msg.reply("```\n" + stderr + "\n```");
-             console.log("test");
          });
 }
 
@@ -145,7 +149,10 @@ String.prototype.hashCode = function() {
 
 /*
 ```cpp
+#include <iostream>
 int main(){
+   std::cout << "message" << std::endl;
+   std::cerr << "error" << std::endl;
    return 0;
 }
 ```
