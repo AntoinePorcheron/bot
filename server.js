@@ -82,6 +82,7 @@ function isCode(msg){
  * Fonction qui détermine quel est le code utilisé dans le texte
  */
 function getCode(msg){
+    msg = msg.replace('\n', ' ');
     return msg.substr(3).split(' ')[0];
 }
 
