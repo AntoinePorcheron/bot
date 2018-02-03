@@ -2,6 +2,7 @@ const fs = require("fs");
 const Discord = require("discord.js");
 const { exec } = require("child_process");
 const client = new Discord.Client();
+const { exec } = require("child_process");
 
 const COMMAND_START = [ '!' ];
 const TOKEN_FILE = '.token';
@@ -92,7 +93,6 @@ function getCode(msg){
 function getCodeContent(msg){
     msg = msg.replace(/```/g, '').split('\n');
     msg.shift();
-    console.log(msg);
     return msg.join('\n');
 }
 
@@ -106,11 +106,23 @@ function getConcerned(msg){
 /**
  * Fonction qui determine si le bot est concerné dans le message discord
  */
-function is_concerned(msg) {
+function isConcerned(msg) {
   let concerned = user_concerned(msg, BOT_NAME);
   if (EVERYONE_MENTIONS_CONCERNED)
     concerned = concerned || msg.mentions.everyone;
   return concerned;
+}
+
+function runCode(msg, content){
+    exec("echo \"" + content + "\"", (error, stdout, stderr) => {
+        if ( error ){
+            msg.reply("Erreur... : " + error);
+        }
+        msg.reply("STDOUT : ");
+        msg.reply("```\n" + stdout + "\n```");
+        msg.reply("STDERR : ");
+        msg.reply("```\n" + stderr + "\n```");
+    });
 }
 
 /*
