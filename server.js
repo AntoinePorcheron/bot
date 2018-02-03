@@ -31,7 +31,7 @@ client.on('message', msg => {
  */
 function handleMessage(msg) {
     if ( isCode(msg.content) ){
-        console.log(getCode(msg.content));
+        console.log(getCodeContent(msg.content));
     }
 }
 
@@ -87,7 +87,14 @@ function getCode(msg){
 }
 
 /**
-*/
+ * Fonction qui permet de recuperer le corp du code
+ */
+function getCodeContent(msg){
+    msg.replace("```", '');
+    msg = msg.split('\n');
+    msg.shift();
+    return msg.join('\n');
+}
 
 /**
  * Fonction qui retourne le(s) utilisateur(s) concernée(s) par un message discord
