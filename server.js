@@ -6,7 +6,7 @@ const client = new Discord.Client();
 const COMMAND_START = [ '!' ];
 const TOKEN_FILE = '.token';
 const KNOWN_LANGUAGE = [ "cpp", "python" ];
-const SHELL_COMMAND = { "cpp" : "echo \"${content}\" | g++ ${filename}.cpp -x c++ - -o ${filename}.out && ./${filename}.out",
+const SHELL_COMMAND = { "cpp" : "echo \"${content}\" | g++ -x c++ - -o ${filename}.out && ./${filename}.out",
                         "python" : "echo \"${content}\" | python"
                       };
 
