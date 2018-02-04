@@ -87,7 +87,6 @@ function isCode(msg) { return msg.startsWith('```'); }
  * texte
  */
 function getCode(msg) {
-    console.log(msg);
     msg = msg.replace('\n', ' ');
     return msg.substr(3).split(' ')[0];
 }
@@ -122,7 +121,6 @@ function isConcerned(msg) {
 }
 
 function runCode(msg, content) {
-    console.log("run code : ", msg);
     const language = getCode(msg.content);
     const filename = "_" + content.hashCode();
     /*exec(`echo \" ${content} \" | g++ -x c++ - -o ${filename} &&
