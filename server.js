@@ -87,6 +87,7 @@ function isCode(msg) { return msg.startsWith('```'); }
  * texte
  */
 function getCode(msg) {
+    console.log(msg);
     msg = msg.replace('\n', ' ');
     return msg.substr(3).split(' ')[0];
 }
@@ -169,5 +170,9 @@ function contains(array, element) {
   std::cerr << "error" << std::endl;
   return 0;
   }
+  ```
+  ```python
+  if ( __name__ == "__main__" ):
+     print("ahah")
   ```
 */
