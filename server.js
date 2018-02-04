@@ -1,11 +1,11 @@
 const fs = require("fs");
 const Discord = require("discord.js");
-const { exec } = require("child_process");
+const {exec} = require("child_process");
 const client = new Discord.Client();
 
 const COMMAND_START = [ '!' ];
 const TOKEN_FILE = '.token';
-const KNOWN_LANGUAGE = ["cpp"];
+const KNOWN_LANGUAGE = [ "cpp" ];
 /**
  * Fonction qui permet de lire les secrets necessaire pour faire la connexion au
  * serveur
@@ -21,24 +21,22 @@ client.on('ready', () => {
   BOT_NAME = client.user.username;
 });
 
-client.on('message', msg => {
-    handleMessage(msg);
-});
+client.on('message', msg => { handleMessage(msg); });
 
 /**
  * Fonction qui traite les messages
  * @param message discord
  */
 function handleMessage(msg) {
-    if ( isCode(msg.content) && contains(KNOWN_LANGUAGE, getCode(msg.content)) ){
-        runCode(msg, getCodeContent(msg.content));
-    }
+  if (isCode(msg.content) && contains(KNOWN_LANGUAGE, getCode(msg.content))) {
+    runCode(msg, getCodeContent(msg.content));
+  }
 }
 
 /**
  * Fonction qui determine si un message reçu est une commande
  * @param msg un message discord
- */ 
+ */
 function isCommand(msg) {
   let message = msg.content.trim();
   let command = false;
@@ -48,13 +46,14 @@ function isCommand(msg) {
 }
 
 /**
- * Fonction qui parse un message texte pour determiner la commande et les paramètres associé
+ * Fonction qui parse un message texte pour determiner la commande et les
+ * paramètres associé
  * @param msg chaine de charactères
  */
-function parseCommand(msg){
-    let message = msg.trim().substr(1).split(' ');
-    let params = message.shift();
-    return { "command" : message[0], "params" : params };
+function parseCommand(msg) {
+  let message = msg.trim().substr(1).split(' ');
+  let params = message.shift();
+  return {"command" : message[0], "params" : params};
 }
 
 /**
@@ -63,7 +62,8 @@ function parseCommand(msg){
 function is_undefined(object) { return (typeof object) === "undefined"; }
 
 /**
- * Fonction qui détermine si l'utilisateur username est concerné par le message msg
+ * Fonction qui détermine si l'utilisateur username est concerné par le message
+ * msg
  * @param msg le message discord
  * @param username l'utilisateur concerné
  */
@@ -72,35 +72,33 @@ function user_concerned(msg, username) {
 }
 
 /**
- * Fonction qui détermine si un message texte contient du code ( formaté par discord )
+ * Fonction qui détermine si un message texte contient du code ( formaté par
+ * discord )
  */
-function isCode(msg){
-    return msg.startsWith('```');
-}
+function isCode(msg) { return msg.startsWith('```'); }
 
 /**
  * Fonction qui détermine quel est le code utilisé dans le texte
  */
-function getCode(msg){
-    msg = msg.replace('\n', ' ');
-    return msg.substr(3).split(' ')[0];
+function getCode(msg) {
+  msg = msg.replace('\n', ' ');
+  return msg.substr(3).split(' ')[0];
 }
 
 /**
  * Fonction qui permet de recuperer le corp du code
  */
-function getCodeContent(msg){
-    msg = msg.replace(/```/g, '').split('\n');
-    msg.shift();
-    return msg.join('\n').replace(/"/g, "\\\"");
+function getCodeContent(msg) {
+  msg = msg.replace(/```/g, '').split('\n');
+  msg.shift();
+  return msg.join('\n').replace(/"/g, "\\\"");
 }
 
 /**
- * Fonction qui retourne le(s) utilisateur(s) concernée(s) par un message discord
+ * Fonction qui retourne le(s) utilisateur(s) concernée(s) par un message
+ * discord
  */
-function getConcerned(msg){
-    return msg.mentions.users;
-}
+function getConcerned(msg) { return msg.mentions.users; }
 
 /**
  * Fonction qui determine si le bot est concerné dans le message discord
@@ -113,21 +111,21 @@ function isConcerned(msg) {
 }
 
 function runCode(msg, content) {
-    const filename = "_" + content.hashCode() + ".cpp";
-    exec("echo \"" + content + "\" > " + filename + " && g++ " + filename +
-         " && ./a.out",
-         (error, stdout, stderr) => {
-             if (error) {
-                 msg.reply("Error : ");
-                 msg.reply("```bash\n" + stderr + "\n```");
+  const filename = "_" + content.hashCode() + ".out";
+  exec("echo \"" + content + " || g++ -x c++ - -o " + filename + " && ./" +
+           filename,
+       (error, stdout, stderr) => {
+         if (error) {
+           msg.reply("Error : ");
+           msg.reply("```bash\n" + stderr + "\n```");
 
-             }else{
-                 msg.reply("STDOUT : ");
-                 msg.reply("```bash\n" + stdout + "\n```");
-                 msg.reply("STDERR : ");
-                 msg.reply("```bash\n" + stderr + "\n```");
-             }
-         });
+         } else {
+           msg.reply("STDOUT : ");
+           msg.reply("```bash\n" + stdout + "\n```");
+           msg.reply("STDERR : ");
+           msg.reply("```bash\n" + stderr + "\n```");
+         }
+       });
 }
 
 /**
@@ -135,19 +133,20 @@ function runCode(msg, content) {
  */
 String.prototype.hashCode = function() {
   var hash = 0, i, chr;
-  if (this.length === 0) return hash;
+  if (this.length === 0)
+    return hash;
   for (i = 0; i < this.length; i++) {
-    chr   = this.charCodeAt(i);
-    hash  = ((hash << 5) - hash) + chr;
+    chr = this.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
     hash |= 0; // Convert to 32bit integer
   }
   return hash;
 };
 
-function contains( array, element ){
-    let result = false;
-    array.forEach( (el) => { result = result || el === element; } );
-    return result;
+function contains(array, element) {
+  let result = false;
+  array.forEach((el) => { result = result || el === element; });
+  return result;
 }
 
 /*
