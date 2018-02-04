@@ -126,6 +126,7 @@ function runCode(msg, content) {
     /*exec(`echo \" ${content} \" | g++ -x c++ - -o ${filename} &&
      * ./${filename}`,*/
     const command = SHELL_COMMAND[language].replace(/${content}/g, content).replace(/${filename}/g, filename);
+    console.log(command);
     exec(command, (error, stdout, stderr) => {
         if (error) {
             msg.reply("Error : ");
