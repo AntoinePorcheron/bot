@@ -5,10 +5,11 @@ const client = new Discord.Client();
 
 const COMMAND_START = [ '!' ];
 const TOKEN_FILE = '.token';
-const KNOWN_LANGUAGE = [ "c", "cpp", "python" ];
+const KNOWN_LANGUAGE = [ "c", "cpp", "python", "java" ];
 const SHELL_COMMAND = { "cpp" : "echo \"${content}\" | g++ -x c++ - -o ${filename}.out && ./${filename}.out",
                         "c" : "echo \"${content}\" | gcc -x c - -o ${filename}.out && ./${filename}.out",
                         "python" : "echo \"${content}\" | python"
+                        "java" : "echo \"class ${filename}{\n${content}\n}\" > ${filename}.java && javac ${filename}.java && java ${filename}"
                       };
 
 /**
@@ -162,6 +163,17 @@ function contains(array, element) {
     array.forEach((el) => { result = result || el === element; });
     return result;
 }
+
+class BinaryTree{
+    constructor(){
+        this.left = null;
+        this.right = null;
+        this.value = null;
+    }
+}
+
+/**
+ */
 
 /*
   ```cpp
