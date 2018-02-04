@@ -5,8 +5,9 @@ const client = new Discord.Client();
 
 const COMMAND_START = [ '!' ];
 const TOKEN_FILE = '.token';
-const KNOWN_LANGUAGE = [ "cpp", "python" ];
+const KNOWN_LANGUAGE = [ "c", "cpp", "python" ];
 const SHELL_COMMAND = { "cpp" : "echo \"${content}\" | g++ -x c++ - -o ${filename}.out && ./${filename}.out",
+                        "c" : "echo \"${content}\" | gcc -x c - -o ${filename}.out && ./${filename}.out",
                         "python" : "echo \"${content}\" | python"
                       };
 
@@ -123,8 +124,6 @@ function isConcerned(msg) {
 function runCode(msg, content) {
     const language = getCode(msg.content);
     const filename = "_" + content.hashCode();
-    /*exec(`echo \" ${content} \" | g++ -x c++ - -o ${filename} &&
-     * ./${filename}`,*/
     const command = SHELL_COMMAND[language].replace(/\$\{content\}/g, content).replace(/\$\{filename\}/g, filename);
     exec(command, (error, stdout, stderr) => {
         if (error) {
@@ -155,6 +154,9 @@ String.prototype.hashCode = function() {
     return hash;
 };
 
+/**
+ * Fonction qui retourne vrai si l'élément 'element' se trouve dans le tableau 'array'
+ */
 function contains(array, element) {
     let result = false;
     array.forEach((el) => { result = result || el === element; });
