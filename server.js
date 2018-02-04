@@ -6,10 +6,8 @@ const client = new Discord.Client();
 const COMMAND_START = [ '!' ];
 const TOKEN_FILE = '.token';
 const KNOWN_LANGUAGE = [ "cpp", "python" ];
-const SHELL_COMMAND = {
-  "cpp" : `echo \"${content}\" | g++ -x c++ - -o ${filename}.out &&
-./${filename}.out`,
-  "python" : `echo \"${content}\" | python`
+const SHELL_COMMAND = { "cpp" : "echo \"${content}\" | g++ -x c++ - -o ${filename}.out && ./${filename}.out",
+                        "python" : "echo \"${content}\" | python"
 };
 
 /**
@@ -123,11 +121,12 @@ function isConcerned(msg) {
 }
 
 function runCode(msg, content) {
-  const language = getCode(msg);
-  const filename = "_" + content.hashCode();
-  /*exec(`echo \" ${content} \" | g++ -x c++ - -o ${filename} &&
-   * ./${filename}`,*/
-  exec(SHELL_COMMAND[language], (error, stdout, stderr) => {
+    const language = getCode(msg);
+    const filename = "_" + content.hashCode();
+    /*exec(`echo \" ${content} \" | g++ -x c++ - -o ${filename} &&
+     * ./${filename}`,*/
+    const command = SHELL_COMMAND[language].replace(/${command}/g, command).replace(/${filename}/g, filename);
+    exec(command, (error, stdout, stderr) => {
     if (error) {
       msg.reply("Error : ");
       msg.reply("```bash\n" + stderr + "\n```");
