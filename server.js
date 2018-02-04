@@ -6,7 +6,7 @@ const client = new Discord.Client();
 const COMMAND_START = [ '!' ];
 const TOKEN_FILE = '.token';
 const KNOWN_LANGUAGE = [ "cpp", "python" ];
-const SHELL_COMMAND = { "cpp" : "echo \"${content}\" > ${filename}.cpp && g++ ${filename}.cpp -o ${filename}.out && ./${filename}.out",
+const SHELL_COMMAND = { "cpp" : "echo \"${content}\" | g++ ${filename}.cpp -x c++ - -o ${filename}.out && ./${filename}.out",
                         "python" : "echo \"${content}\" | python"
                       };
 
@@ -126,7 +126,6 @@ function runCode(msg, content) {
     /*exec(`echo \" ${content} \" | g++ -x c++ - -o ${filename} &&
      * ./${filename}`,*/
     const command = SHELL_COMMAND[language].replace(/\$\{content\}/g, content).replace(/\$\{filename\}/g, filename);
-    console.log(command);
     exec(command, (error, stdout, stderr) => {
         if (error) {
             msg.reply("Error : ");
