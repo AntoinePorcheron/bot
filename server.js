@@ -123,7 +123,7 @@ function isConcerned(msg) {
 
 function runCode(msg, content) {
     console.log("run code : ", msg);
-    const language = getCode(msg);
+    const language = getCode(msg.content);
     const filename = "_" + content.hashCode();
     /*exec(`echo \" ${content} \" | g++ -x c++ - -o ${filename} &&
      * ./${filename}`,*/
