@@ -5,11 +5,16 @@ const client = new Discord.Client();
 
 const COMMAND_START = [ '!' ];
 const TOKEN_FILE = '.token';
-const KNOWN_LANGUAGE = [ "cpp" ];
-const SHELL_COMMAND = {"cpp" : ""};
+const KNOWN_LANGUAGE = [ "cpp", "python" ];
+const SHELL_COMMAND = {
+  "cpp" : `echo \"${content}\" | g++ -x c++ - -o ${filename}.out &&
+./${filename}.out`,
+  "python" : `echo \"${content}\" | python`
+};
+
 /**
- * Fonction qui permet de lire les secrets necessaire pour faire la connexion au
- * serveur
+ * Fonction qui permet de lire les secrets necessaire pour faire la
+ * connexion au serveur
  */
 fs.readFile(TOKEN_FILE, 'utf8', function(err, data) {
   if (err)
@@ -18,7 +23,7 @@ fs.readFile(TOKEN_FILE, 'utf8', function(err, data) {
 });
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  console.log(` Logged in as $ { client.user.tag }!`);
   BOT_NAME = client.user.username;
 });
 
@@ -63,8 +68,8 @@ function parseCommand(msg) {
 function is_undefined(object) { return (typeof object) === "undefined"; }
 
 /**
- * Fonction qui détermine si l'utilisateur username est concerné par le message
- * msg
+ * Fonction qui détermine si l'utilisateur username est concerné par le
+ * message msg
  * @param msg le message discord
  * @param username l'utilisateur concerné
  */
@@ -79,7 +84,9 @@ function user_concerned(msg, username) {
 function isCode(msg) { return msg.startsWith('```'); }
 
 /**
- * Fonction qui détermine quel est le code utilisé dans le texte
+ * Fonction qui détermine quel
+ * est le code utilisé dans le
+ * texte
  */
 function getCode(msg) {
   msg = msg.replace('\n', ' ');
@@ -87,7 +94,8 @@ function getCode(msg) {
 }
 
 /**
- * Fonction qui permet de recuperer le corp du code
+ * Fonction qui permet de
+ * recuperer le corp du code
  */
 function getCodeContent(msg) {
   msg = msg.replace(/```/g, '').split('\n');
@@ -96,13 +104,16 @@ function getCodeContent(msg) {
 }
 
 /**
- * Fonction qui retourne le(s) utilisateur(s) concernée(s) par un message
- * discord
+ * Fonction qui retourne le(s)
+ * utilisateur(s) concernée(s)
+ * par un message discord
  */
 function getConcerned(msg) { return msg.mentions.users; }
 
 /**
- * Fonction qui determine si le bot est concerné dans le message discord
+ * Fonction qui determine si le
+ * bot est concerné dans le
+ * message discord
  */
 function isConcerned(msg) {
   let concerned = user_concerned(msg, BOT_NAME);
@@ -112,20 +123,22 @@ function isConcerned(msg) {
 }
 
 function runCode(msg, content) {
-  const filename = "_" + content.hashCode() + ".out";
-  exec(`echo \" ${content} \" | g++ -x c++ - -o ${filename} && ./${filename}`,
-       (error, stdout, stderr) => {
-         if (error) {
-           msg.reply("Error : ");
-           msg.reply("```bash\n" + stderr + "\n```");
+  const language = getCode(msg);
+  const filename = "_" + content.hashCode();
+  /*exec(`echo \" ${content} \" | g++ -x c++ - -o ${filename} &&
+   * ./${filename}`,*/
+  exec(SHELL_COMMAND[language], (error, stdout, stderr) => {
+    if (error) {
+      msg.reply("Error : ");
+      msg.reply("```bash\n" + stderr + "\n```");
 
-         } else {
-           msg.reply("STDOUT : ");
-           msg.reply("```bash\n" + stdout + "\n```");
-           msg.reply("STDERR : ");
-           msg.reply("```bash\n" + stderr + "\n```");
-         }
-       });
+    } else {
+      msg.reply("STDOUT : ");
+      msg.reply("```bash\n" + stdout + "\n```");
+      msg.reply("STDERR : ");
+      msg.reply("```bash\n" + stderr + "\n```");
+    }
+  });
 }
 
 /**
@@ -150,12 +163,12 @@ function contains(array, element) {
 }
 
 /*
-```cpp
-#include <iostream>
-int main(){
-   std::cout << "message" << std::endl;
-   std::cerr << "error" << std::endl;
-   return 0;
-}
-```
+  ```cpp
+  #include <iostream>
+  int main(){
+  std::cout << "message" << std::endl;
+  std::cerr << "error" << std::endl;
+  return 0;
+  }
+  ```
 */
