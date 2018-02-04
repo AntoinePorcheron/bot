@@ -112,7 +112,7 @@ function isConcerned(msg) {
 
 function runCode(msg, content) {
   const filename = "_" + content.hashCode() + ".out";
-  exec("echo \"" + content + " || g++ -x c++ - -o " + filename + " && ./" +
+  exec("echo \"" + content + "\" || g++ -x c++ - -o " + filename + " && ./" +
            filename,
        (error, stdout, stderr) => {
          if (error) {
