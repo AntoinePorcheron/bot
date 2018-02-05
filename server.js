@@ -13,7 +13,7 @@ const SHELL_COMMAND = { "cpp" : "echo \"${content}\" | g++ -x c++ - -o ${filenam
                         "java" : "echo \"class ${filename}{\n${content}\n}\" > ${filename}.java && javac ${filename}.java && java ${filename}",
                         "javascript": "echo \"${content}\" > ${filename}.js && node ${filename}.js"
                       };
-const TEX_HEADER = "\\documentclass{article}\n\\pagestyle{empty}\n\\usepackage{amsmath}\n\\usepackage{amssymb}\n\\begin{document}\n";
+const TEX_HEADER = "\\nonstopmode\n\\documentclass{article}\n\\pagestyle{empty}\n\\usepackage{amsmath}\n\\usepackage{amssymb}\n\\begin{document}\n";
 const TEX_FOOTER = "\n\\end{document}";
 
 
