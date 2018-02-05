@@ -52,30 +52,16 @@ function handleMessage(msg) {
 function generateImage(msg){
     const content = getCodeContent(msg.content);
     const filename = "_" + content.hashCode();
-    const command1 = `echo \"${TEX_HEADER}${content}${TEX_FOOTER}\" > ${filename}.tex`
-    const command2 = `pdflatex ${filename}.tex`
-    const command3 = `convert ${filename}.pdf -trim ${filename}.png`;
+    const command = `echo \"${TEX_HEADER}${content}${TEX_FOOTER}\" > ${filename}.tex && pdflatex ${filename}.tex && convert ${filename}.pdf -trim ${filename}.png`;
     console.log(command1);
-    exec(command1, (error, stdout, stderr) => {
+    exec(command, (error, stdout, stderr) => {
         if (error) {
             msg.reply("Erreur lors de la génération de l'image...");
             msg.reply("Erreur : ");
             msg.reply(`\`\`\`bash ${error} \`\`\``);
 
         } else {
-            exec(command2, (error2, stdout, stderr) => {
-                if ( error2 ){
-                    console.log(error2);
-                }
-                exec(command3, (error1, stdout, stderr) => {
-                    if ( error1 ){
-                        console.log(error1);
-                    }
-                    console.log("succès");
-                });
-            });
             msg.reply("", {"files" : [`${filename}.png`]});
-            
         }
     });
 }
