@@ -214,6 +214,6 @@ class BinaryTree{
   function replicate(){
   console.log('test');/*``` test ```javascript console.log("je suis là"); ``` test ```*/
   }
-  replicate();
-```
-*/
+/*  replicate();*/
+/*```*/
+/**/
