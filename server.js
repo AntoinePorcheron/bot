@@ -56,18 +56,18 @@ function generateImage(msg){
     const command2 = `pdflatex ${filename}.tex`
     const command3 = `convert ${filename}.pdf -trim ${filename}.png`;
     console.log(command1);
-    exec(command, (error, stdout, stderr) => {
+    exec(command1, (error, stdout, stderr) => {
         if (error) {
             msg.reply("Erreur lors de la génération de l'image...");
             msg.reply("Erreur : ");
             msg.reply(`\`\`\`bash ${error} \`\`\``);
 
         } else {
-            exec(command, (error2, stdout, stderr) => {
+            exec(command2, (error2, stdout, stderr) => {
                 if ( error2 ){
                     console.log(error2);
                 }else{
-                    exec(command, (error1, stdout, stderr) => {
+                    exec(command3, (error1, stdout, stderr) => {
                         if ( error1 ){
                             console.log(error1);
                         }else{
