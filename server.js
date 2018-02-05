@@ -57,7 +57,7 @@ function generateImage(msg){
             msg.reply("Erreur lors de la génération de l'image...");
 
         } else {
-            msg.reply("", {"files" : [`${filename}.png`]);
+            msg.reply("", {"files" : [`${filename}.png`]});
         }
     });
 }
