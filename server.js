@@ -6,7 +6,7 @@ const CYANIDE_HAPINESS_MAX = 4844;
 
 const COMMAND_START = [ '!' ];
 const TOKEN_FILE = '.token';
-const KNOWN_LANGUAGE = [ "c", "cpp", "python", "java" ];
+const KNOWN_LANGUAGE = [ "c", "cpp", "python", "java", "javascript" ];
 const SHELL_COMMAND = { "cpp" : "echo \"${content}\" | g++ -x c++ - -o ${filename}.out && ./${filename}.out",
                         "c" : "echo \"${content}\" | gcc -x c - -o ${filename}.out && ./${filename}.out",
                         "python" : "echo \"${content}\" | python",
