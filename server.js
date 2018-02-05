@@ -13,6 +13,9 @@ const SHELL_COMMAND = { "cpp" : "echo \"${content}\" | g++ -x c++ - -o ${filenam
                         "java" : "echo \"class ${filename}{\n${content}\n}\" > ${filename}.java && javac ${filename}.java && java ${filename}",
                         "javascript": "echo \"${content}\" > ${filename}.js && node ${filename}.js"
                       };
+const TEX_HEADER = "\documentclass{article}\n\pagestyle{empty}\n\usepackage{amsmath}\n\usepackage{amssymb}\begin{document}\n";
+const TEX_FOOTER = "\n\end{document}";
+
 
 /**
  * Fonction qui permet de lire les secrets necessaire pour faire la
@@ -38,7 +41,25 @@ client.on('message', msg => { handleMessage(msg); });
 function handleMessage(msg) {
     if (isCode(msg.content) && contains(KNOWN_LANGUAGE, getCode(msg.content))) {
         runCode(msg, getCodeContent(msg.content));
+    }else if( isCode(msg.content ) && getCode(msg.content) === "tex" ) {
+        generateImage(msg);
     }
+}
+
+/**
+ * Fonction qui à partir d'un bout de code tex génère une image et la renvoie au client
+ */
+function generateImage(msg){
+    const filename = "_" + content.hashCode();
+    const command = `echo \"${TEX_HEADER}${msg.content}${TEX_FOOTER}\" > ${filename}.tex && pdflatex ${filename}.tex && convert ${filename}.pdf -trim ${filename}.png`;
+    exec(command, (error, stdout, stderr) => {
+        if (error) {
+            msg.reply("Erreur lors de la génération de l'image...");
+
+        } else {
+            msg.reply("", {"files" : [`${filename}.png`]);
+        }
+    });
 }
 
 /**
@@ -174,20 +195,25 @@ class BinaryTree{
     }
 }
 
-/**
- */
-
 /*
   ```cpp
   #include <iostream>
   int main(){
-  std::cout << "message" << std::endl;
+  std::cout << "\```javascript message\`\`\`" << std::endl;
   std::cerr << "error" << std::endl;
   return 0;
   }
   ```
   ```python
   if ( __name__ == "__main__" ):
+  
      print("ahah")
   ```
+
+  ```javascript
+  function replicate(){
+  console.log('test');/*``` test ```javascript console.log("je suis là"); ``` test ```*/
+  }
+  replicate();
+```
 */
