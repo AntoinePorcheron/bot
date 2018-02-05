@@ -10,7 +10,7 @@ const KNOWN_LANGUAGE = [ "c", "cpp", "python", "java" ];
 const SHELL_COMMAND = { "cpp" : "echo \"${content}\" | g++ -x c++ - -o ${filename}.out && ./${filename}.out",
                         "c" : "echo \"${content}\" | gcc -x c - -o ${filename}.out && ./${filename}.out",
                         "python" : "echo \"${content}\" | python",
-                        "java" : "echo \"class ${filename}{\n${content}\n}\" > ${filename}.java && javac ${filename}.java && java ${filename}"
+                        "java" : "echo \"class ${filename}{\n${content}\n}\" > ${filename}.java && javac ${filename}.java && java ${filename}",
                         "javascript": "echo \"${content}\" > ${filename}.js && node ${filename}.js"
                       };
 
