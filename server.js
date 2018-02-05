@@ -2,14 +2,16 @@ const fs = require("fs");
 const Discord = require("discord.js");
 const {exec} = require("child_process");
 const client = new Discord.Client();
+const CYANIDE_HAPINESS_MAX = 4844;
 
 const COMMAND_START = [ '!' ];
 const TOKEN_FILE = '.token';
 const KNOWN_LANGUAGE = [ "c", "cpp", "python", "java" ];
 const SHELL_COMMAND = { "cpp" : "echo \"${content}\" | g++ -x c++ - -o ${filename}.out && ./${filename}.out",
                         "c" : "echo \"${content}\" | gcc -x c - -o ${filename}.out && ./${filename}.out",
-                        "python" : "echo \"${content}\" | python", 
+                        "python" : "echo \"${content}\" | python",
                         "java" : "echo \"class ${filename}{\n${content}\n}\" > ${filename}.java && javac ${filename}.java && java ${filename}"
+                        "javascript": "echo \"${content}\" > ${filename}.js && node ${filename}.js"
                       };
 
 /**
