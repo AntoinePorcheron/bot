@@ -66,15 +66,13 @@ function generateImage(msg){
             exec(command2, (error2, stdout, stderr) => {
                 if ( error2 ){
                     console.log(error2);
-                }else{
-                    exec(command3, (error1, stdout, stderr) => {
-                        if ( error1 ){
-                            console.log(error1);
-                        }else{
-                            console.log("succès");
-                        }
-                    });
                 }
+                exec(command3, (error1, stdout, stderr) => {
+                    if ( error1 ){
+                        console.log(error1);
+                    }
+                    console.log("succès");
+                });
             });
             msg.reply("", {"files" : [`${filename}.png`]});
             
