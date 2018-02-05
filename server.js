@@ -57,6 +57,8 @@ function generateImage(msg){
     exec(command, (error, stdout, stderr) => {
         if (error) {
             msg.reply("Erreur lors de la génération de l'image...");
+            msg.reply("Erreur : ");
+            msg.reply(`\`\`\`bash ${error} \`\`\``);
 
         } else {
             msg.reply("", {"files" : [`${filename}.png`]});
