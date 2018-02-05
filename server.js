@@ -50,6 +50,7 @@ function handleMessage(msg) {
  * Fonction qui à partir d'un bout de code tex génère une image et la renvoie au client
  */
 function generateImage(msg){
+    const content = getCodeContent(msg.content);
     const filename = "_" + content.hashCode();
     const command = `echo \"${TEX_HEADER}${msg.content}${TEX_FOOTER}\" > ${filename}.tex && pdflatex ${filename}.tex && convert ${filename}.pdf -trim ${filename}.png`;
     exec(command, (error, stdout, stderr) => {
