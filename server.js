@@ -60,7 +60,9 @@ function generateImage(msg){
             msg.reply(`\`\`\`bash ${error} \`\`\``);
 
         } else {
-            msg.reply("Resultat : ", { files : [`./${filename}.png`] } );
+            const send = { files : [`./${filename}.png`] };
+            console.log(send);
+            msg.reply("Resultat : ", send/*{ files : [`./${filename}.png`] }*/ );
 
         }
     });
