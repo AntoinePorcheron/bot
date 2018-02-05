@@ -53,7 +53,6 @@ function generateImage(msg){
     const content = getCodeContent(msg.content);
     const filename = "_" + content.hashCode();
     const command = `echo \"${TEX_HEADER}${content}${TEX_FOOTER}\" > ${filename}.tex && pdflatex ${filename}.tex && convert ${filename}.pdf -trim ${filename}.png`;
-    console.log(command1);
     exec(command, (error, stdout, stderr) => {
         if (error) {
             msg.reply("Erreur lors de la génération de l'image...");
