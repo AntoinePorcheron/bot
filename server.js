@@ -32,24 +32,24 @@ client.on('ready', () => {
     BOT_NAME = client.user.username;
 });
 
-client.on('message', msg => { handleMessage(msg); });
+client.on('message', msg => { handleMessage(msg, client); });
 
 /**
  * Fonction qui traite les messages
  * @param message discord
  */
-function handleMessage(msg) {
+function handleMessage(msg, client) {
     if (isCode(msg.content) && contains(KNOWN_LANGUAGE, getCode(msg.content))) {
         runCode(msg, getCodeContent(msg.content));
     }else if( isCode(msg.content ) && getCode(msg.content) === "tex" ) {
-        generateImage(msg);
+        generateImage(msg, client);
     }
 }
 
 /**
  * Fonction qui à partir d'un bout de code tex génère une image et la renvoie au client
  */
-function generateImage(msg){
+function generateImage(msg, client){
     const content = getCodeContent(msg.content).replace(/\$/g, "\\$");
     const filename = "_" + content.hashCode();
     const command = `echo \"${TEX_HEADER}${content}${TEX_FOOTER}\" > ${filename}.tex && pdflatex ${filename}.tex && convert ${filename}.pdf -trim ${filename}.png`;
@@ -60,7 +60,8 @@ function generateImage(msg){
             msg.reply(`\`\`\`bash ${error} \`\`\``);
 
         } else {
-            msg.reply("", {files : [`./${filename}.png`]});
+            /*msg.reply("", { files : [`./${filename}.png`] } );*/
+            client.sendFile(msg, `./${filename}.png`);
         }
     });
 }
