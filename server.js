@@ -52,7 +52,7 @@ function handleMessage(msg) {
 function generateImage(msg){
     const content = getCodeContent(msg.content);
     const filename = "_" + content.hashCode();
-    const command = `echo \"${TEX_HEADER}${contetn}${TEX_FOOTER}\" > ${filename}.tex && pdflatex ${filename}.tex && convert ${filename}.pdf -trim ${filename}.png`;
+    const command = `echo \"${TEX_HEADER}${content}${TEX_FOOTER}\" > ${filename}.tex && pdflatex ${filename}.tex && convert ${filename}.pdf -trim ${filename}.png`;
     exec(command, (error, stdout, stderr) => {
         if (error) {
             msg.reply("Erreur lors de la génération de l'image...");
